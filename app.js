@@ -145,20 +145,24 @@ function generarEquipos() {
   resultadoEquipos.innerHTML = `
     <h3>Balanceo #${contadorBalanceos}</h3>
 
-    <div class="teamBox">
-      <h2>Team A (${puntosA} pts)</h2>
+    <div class="teamContainer">
 
-      ${teamA.map(j =>
-        `${j.nombre} (${j.rango})`
-      ).join("<br>")}
-    </div>
+      <div class="teamBox">
+        <h2>Team A (${puntosA} pts)</h2>
 
-    <div class="teamBox">
-      <h2>Team B (${puntosB} pts)</h2>
+        ${teamA.map(j =>
+          `${j.nombre} (${j.rango})`
+        ).join("<br>")}
+      </div>
 
-      ${teamB.map(j =>
-        `${j.nombre} (${j.rango})`
-      ).join("<br>")}
+      <div class="teamBox">
+        <h2>Team B (${puntosB} pts)</h2>
+
+        ${teamB.map(j =>
+          `${j.nombre} (${j.rango})`
+        ).join("<br>")}
+      </div>
+
     </div>
   `;
 

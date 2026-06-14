@@ -1,0 +1,50 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+h1 {
+    text-align: center;
+    color: #2c3e50;
+}
+
+p {
+    text-align: center;
+}
+
+#search {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+#playerList {
+    background: white;
+    border: 1px solid #ccc;
+    min-height: 200px;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+}
+
+button:disabled {
+    background-color: #cccccc;
+}
+
+button:not(:disabled) {
+    background-color: #2e7d32;
+    color: white;
+    cursor: pointer;
+}

@@ -11,6 +11,8 @@ let contadorBalanceos = 0;
 fetch("players.json")
   .then(response => response.json())
   .then(data => {
+    console.log(data);
+
     jugadores = data;
     mostrarJugadores(jugadores);
   });
@@ -98,14 +100,14 @@ searchInput.addEventListener("input", () => {
 });
 function puntosRango(rango) {
 
-  if (rango === "Paladín") return 4;
-  if (rango === "Campeón") return 3;
-  if (rango === "Capitán") return 2;
-  if (rango === "Escudero") return 1;
+  if (rango === "S+_Leitis") return 5;
+  if (rango === "S_Boyardo") return 4;
+  if (rango === "A+_Paladin") return 3;
+  if (rango === "A_Centurion") return 2;
+  if (rango === "B+_Campeon") return 1;
 
   return 0;
 }
-
 function generarEquipos() {
 
   contadorBalanceos++;

@@ -8,7 +8,7 @@ let jugadores = [];
 let seleccionados = new Map();
 let contadorBalanceos = 0;
 
-fetch("players.json")
+fetch("jugadores.json") // <-- Aquí debe decir "jugadores.json" en lugar de "players.json"
   .then(response => response.json())
   .then(data => {
     console.log(data);

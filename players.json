@@ -43,23 +43,3 @@
 
   {"nombre": "king vitt", "rango": "B+_Campeon"}
 ]
-2. Ajuste en app.js para la cantidad de jugadores
-Como ahora tienes una base de datos mucho más grande (39 jugadores en total), es muy probable que en las reuniones de la fecha ya no solo quieras armar partidas tradicionales de 3v3 o 4v4.
-
-Para evitar que el botón de balancear se bloquee si seleccionas una cantidad distinta de jugadores, te sugiero un pequeño ajuste en la línea 79 de tu app.js.
-
-Busca la función actualizarPanel() y cámbiala para que permita balancear cualquier número par de jugadores (4, 6, 8, 10, etc.):
-
-JavaScript
-function actualizarPanel() {
-  selectedPlayersDiv.innerHTML =
-    `<strong>Seleccionados (${seleccionados.size})</strong><br>` +
-    [...seleccionados.keys()].join("<br>");
-  
-  // Modificación: El botón se activa con cualquier número par de jugadores a partir de 4
-  balanceBtn.disabled = !(seleccionados.size >= 4 && seleccionados.size % 2 === 0);
-  
-  if (contadorBalanceos === 0) {
-    rebalanceBtn.disabled = true;
-  }
-}

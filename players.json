@@ -1,20 +1,65 @@
 [
-  {"nombre":"Bio Tine","rango":"S+_Leitis"},
-  {"nombre":"Robincule","rango":"S+_Leitis"},
-  {"nombre":"Rocket Bunny","rango":"S+_Leitis"},
-  {"nombre":"Ustukuddus","rango":"S+_Leitis"},
-  {"nombre":"Euphory","rango":"S_Boyardo"},
-  {"nombre":"Juliano","rango":"S_Boyardo"},
-  {"nombre":"Elraf","rango":"A+_Paladin"},
-  {"nombre":"Kficho","rango":"A+_Paladin"},
-  {"nombre":"Pako","rango":"A+_Paladin"},
-  {"nombre":"Renjifo","rango":"A+_Paladin"},
-  {"nombre":"Saul Goodman","rango":"A+_Paladin"},
-  {"nombre":"TR.!","rango":"A+_Paladin"},
-  {"nombre":"Wag","rango":"A+_Paladin"},
-  {"nombre":"Diego Leal","rango":"A_Centurion"},
-  {"nombre":"Erik Barbaro","rango":"A_Centurion"},
-  {"nombre":"Furan","rango":"A_Centurion"},
-  {"nombre":"Gerard","rango":"A_Centurion"},
-  {"nombre":"King Vitt","rango":"B+_Campeon"}
+  {"nombre": "Bio Tine", "rango": "S+_Leitis"},
+  {"nombre": "Robincule", "rango": "S+_Leitis"},
+  {"nombre": "Rocket Bunny", "rango": "S+_Leitis"},
+  {"nombre": "Ustukuddus", "rango": "S+_Leitis"},
+
+  {"nombre": "Euphory", "rango": "S_Boyardo"},
+  {"nombre": "Juliano", "rango": "S_Boyardo"},
+  {"nombre": "Pako", "rango": "S_Boyardo"},
+  {"nombre": "Renjifo", "rango": "S_Boyardo"},
+  {"nombre": "GGAMER", "rango": "S_Boyardo"},
+
+  {"nombre": "Elraf", "rango": "A+_Paladin"},
+  {"nombre": "Kficho", "rango": "A+_Paladin"},
+  {"nombre": "Saul Goodman", "rango": "A+_Paladin"},
+  {"nombre": "TR.!", "rango": "A+_Paladin"},
+  {"nombre": "Wag", "rango": "A+_Paladin"},
+  {"nombre": "Tailfeather28", "rango": "A+_Paladin"},
+
+  {"nombre": "Diego Leal", "rango": "A_Centurion"},
+  {"nombre": "Erik Bárbaro", "rango": "A_Centurion"},
+  {"nombre": "Furan", "rango": "A_Centurion"},
+  {"nombre": "Gerard", "rango": "A_Centurion"},
+  {"nombre": "Anciano", "rango": "A_Centurion"},
+  {"nombre": "B. Rommel", "rango": "A_Centurion"},
+  {"nombre": "Benums", "rango": "A_Centurion"},
+  {"nombre": "Donald Trump", "rango": "A_Centurion"},
+  {"nombre": "Ecbert", "rango": "A_Centurion"},
+  {"nombre": "Falco Lombardi", "rango": "A_Centurion"},
+  {"nombre": "Fenix", "rango": "A_Centurion"},
+  {"nombre": "Gato Electoral", "rango": "A_Centurion"},
+  {"nombre": "Ggindu", "rango": "A_Centurion"},
+  {"nombre": "Hipoflash", "rango": "A_Centurion"},
+  {"nombre": "JB", "rango": "A_Centurion"},
+  {"nombre": "Jkaarem", "rango": "A_Centurion"},
+  {"nombre": "Komodo3000", "rango": "A_Centurion"},
+  {"nombre": "Levi", "rango": "A_Centurion"},
+  {"nombre": "Mald. Futre", "rango": "A_Centurion"},
+  {"nombre": "Mojo jojo", "rango": "A_Centurion"},
+  {"nombre": "Persie", "rango": "A_Centurion"},
+  {"nombre": "RedMESC", "rango": "A_Centurion"},
+  {"nombre": "Santiago RC", "rango": "A_Centurion"},
+
+  {"nombre": "king vitt", "rango": "B+_Campeon"}
 ]
+2. Ajuste en app.js para la cantidad de jugadores
+Como ahora tienes una base de datos mucho más grande (39 jugadores en total), es muy probable que en las reuniones de la fecha ya no solo quieras armar partidas tradicionales de 3v3 o 4v4.
+
+Para evitar que el botón de balancear se bloquee si seleccionas una cantidad distinta de jugadores, te sugiero un pequeño ajuste en la línea 79 de tu app.js.
+
+Busca la función actualizarPanel() y cámbiala para que permita balancear cualquier número par de jugadores (4, 6, 8, 10, etc.):
+
+JavaScript
+function actualizarPanel() {
+  selectedPlayersDiv.innerHTML =
+    `<strong>Seleccionados (${seleccionados.size})</strong><br>` +
+    [...seleccionados.keys()].join("<br>");
+  
+  // Modificación: El botón se activa con cualquier número par de jugadores a partir de 4
+  balanceBtn.disabled = !(seleccionados.size >= 4 && seleccionados.size % 2 === 0);
+  
+  if (contadorBalanceos === 0) {
+    rebalanceBtn.disabled = true;
+  }
+}

@@ -90,10 +90,7 @@ function generarEquipos() {
   contadorBalanceos++;
   const lista = [...seleccionados.values()];
   
-  // Mezcla aleatoria inicial
   lista.sort(() => Math.random() - 0.5);
-  
-  // Ordena por jerarquía de rango (Mayor a menor)
   lista.sort((a, b) => puntosRango(b.rango) - puntosRango(a.rango));
 
   const teamA = [];
@@ -101,7 +98,6 @@ function generarEquipos() {
   let puntosA = 0;
   let puntosB = 0;
 
-  // Distribución equitativa por peso
   lista.forEach(jugador => {
     const puntos = puntosRango(jugador.rango);
     if (puntosA <= puntosB) {
@@ -113,16 +109,37 @@ function generarEquipos() {
     }
   });
 
+  const obtenerEtiquetaRango = (rango) => {
+    switch(rango) {
+      case "S+_Leitis":
+        return `<span style="background-color: #2e7d32; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; margin-left: 5px;">⚔️ S+ Leitis</span>`;
+      case "S_Boyardo":
+        return `<span style="background-color: #1565c0; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; margin-left: 5px;">🛡️ S Boyardo</span>`;
+      case "A+_Paladin":
+        return `<span style="background-color: #ef6c00; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; margin-left: 5px;">⭐ A+ Paladin</span>`;
+      case "A_Centurion":
+        return `<span style="background-color: #f57c00; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; margin-left: 5px;">🎖️ A Centurion</span>`;
+      case "B+_Campeon":
+        return `<span style="background-color: #757575; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; margin-left: 5px;">🪵 B+ Campeon</span>`;
+      default:
+        return "";
+    }
+  };
+
   resultadoEquipos.innerHTML = `
     <h3>Balanceo #${contadorBalanceos}</h3>
     <div class="teamContainer">
       <div class="teamBox">
         <h2>Team A (${puntosA} pts)</h2>
-        ${teamA.map(j => `${j.nombre} (${j.rango})`).join("<br>")}
+        <div style="line-height: 2.2; font-size: 16px;">
+          ${teamA.map(j => `<strong>${j.nombre}</strong> ${obtenerEtiquetaRango(j.rango)}`).join("<br>")}
+        </div>
       </div>
       <div class="teamBox">
         <h2>Team B (${puntosB} pts)</h2>
-        ${teamB.map(j => `${j.nombre} (${j.rango})`).join("<br>")}
+        <div style="line-height: 2.2; font-size: 16px;">
+          ${teamB.map(j => `<strong>${j.nombre}</strong> ${obtenerEtiquetaRango(j.rango)}`).join("<br>")}
+        </div>
       </div>
     </div>
   `;

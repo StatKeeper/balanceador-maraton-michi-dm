@@ -57,17 +57,59 @@ function activarEventos() {
   });
 }
 
-function actualizarPanel() {
-  selectedPlayersDiv.innerHTML =
-    `<strong>Seleccionados (${seleccionados.size})</strong><br>` +
-    [...seleccionados.keys()].join("<br>");
-  
-  // Habilita el botón solo si hay 6 u 8 jugadores seleccionados
-  balanceBtn.disabled = !(seleccionados.size === 6 || seleccionados.size === 8);
-  if (contadorBalanceos === 0) {
-    rebalanceBtn.disabled = true;
-  }
+const playerList = document.getElementById("playerList");
+const searchInput = document.getElementById("search");
+const balanceBtn = document.getElementById("balanceBtn");
+const rebalanceBtn = document.getElementById("rebalanceBtn");
+const selectedPlayersDiv = document.getElementById("selectedPlayers");
+const resultadoEquipos = document.getElementById("resultadoEquipos");
+let jugadores = [];
+let seleccionados = new Map();
+let contadorBalanceos = 0;
+
+fetch("jugadores.json")
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+    jugadores = data;
+    mostrarJugadores(jugadores);
+  });
+
+function mostrarJugadores(lista) {
+  playerList.innerHTML = "";
+  lista.forEach(jugador => {
+    const div = document.createElement("div");
+    const marcado = seleccionados.has(jugador.nombre) ? "checked" : "";
+    div.innerHTML = `
+      <label>
+        <input
+          type="checkbox"
+          class="playerCheck"
+          data-name="${jugador.nombre}"
+          ${marcado}
+        >
+        ${jugador.nombre} (${jugador.rango})
+      </label>
+    `;
+    playerList.appendChild(div);
+  });
+  activarEventos();
+  actualizarPanel();
 }
+
+function activarEventos() {
+  const checks = document.querySelectorAll(".playerCheck");
+  checks.forEach(check => {
+    check.addEventListener("change", () => {
+      const nombre = check.dataset.name;
+      if (check.checked) {
+        const jugador = jugadores.find(j => j.nombre === nombre);
+        seleccionados.set(nombre, jugador);
+      } else {
+        seleccionados.delete(nombre);
+      }
+      contadorBalanceos = 0;
+      resultadoEquipos.innerHTML
 
 searchInput.addEventListener("input", () => {
   const texto = searchInput.value.toLowerCase();
@@ -113,30 +155,20 @@ function generarEquipos() {
     }
   });
 
-  // Asignamos solo el emoji correspondiente a cada rango
-  const obtenerEmojiRango = (rango) => {
-    if (rango === "S+_Leitis") return "⚔️";
-    if (rango === "S_Boyardo") return "🛡️";
-    if (rango === "A+_Paladin") return "⭐";
-    if (rango === "A_Centurion") return "🎖️";
-    if (rango === "B+_Campeon") return "🏆";
-    return "🪵";
-  };
-
-  // Se muestra solo el nombre en negrita y su icono al lado para máxima claridad
+  // El resultado mostrará SOLAMENTE el Nombre en negrita dentro del Team para máxima limpieza
   resultadoEquipos.innerHTML = `
     <h3>Balanceo #${contadorBalanceos}</h3>
     <div class="teamContainer">
       <div class="teamBox">
         <h2>Team A (${puntosA} pts)</h2>
         <div style="font-size: 17px; line-height: 2.2; color: #222; text-align: left; padding-left: 10px;">
-          ${teamA.map(j => `<strong>${j.nombre}</strong> ${obtenerEmojiRango(j.rango)}`).join("<br>")}
+          ${teamA.map(j => `<strong>${j.nombre}</strong>`).join("<br>")}
         </div>
       </div>
       <div class="teamBox">
         <h2>Team B (${puntosB} pts)</h2>
         <div style="font-size: 17px; line-height: 2.2; color: #222; text-align: left; padding-left: 10px;">
-          ${teamB.map(j => `<strong>${j.nombre}</strong> ${obtenerEmojiRango(j.rango)}`).join("<br>")}
+          ${teamB.map(j => `<strong>${j.nombre}</strong>`).join("<br>")}
         </div>
       </div>
     </div>
@@ -144,15 +176,6 @@ function generarEquipos() {
   rebalanceBtn.disabled = false;
 }
 
-// --- ESTO ES LO QUE ACTIVA LOS BOTONES (Asegúrate de que quede en inglés nativo) ---
-if (typeof balanceBtn !== 'undefined' && balanceBtn) {
-  balanceBtn.addEventListener("click", () => {
-    generarEquipos();
-  });
-}
-
-if (typeof rebalanceBtn !== 'undefined' && rebalanceBtn) {
-  rebalanceBtn.addEventListener("click", () => {
-    generarEquipos();
-  });
-}
+// Activadores directos estándar para asegurar compatibilidad en PC y móvil
+balanceBtn.addEventListener("click", generarEquipos);
+rebalanceBtn.addEventListener("click", generarEquipos);

@@ -123,23 +123,36 @@ function generarEquipos() {
     return "🪵";
   };
 
-  // Se muestra solo el nombre en negrita y su icono al lado
+  // Se muestra solo el nombre en negrita y su icono al lado para máxima claridad
   resultadoEquipos.innerHTML = `
     <h3>Balanceo #${contadorBalanceos}</h3>
     <div class="teamContainer">
       <div class="teamBox">
         <h2>Team A (${puntosA} pts)</h2>
-        <div style="font-size: 16px; line-height: 2.0;">
+        <div style="font-size: 17px; line-height: 2.2; color: #222; text-align: left; padding-left: 10px;">
           ${teamA.map(j => `<strong>${j.nombre}</strong> ${obtenerEmojiRango(j.rango)}`).join("<br>")}
         </div>
       </div>
       <div class="teamBox">
         <h2>Team B (${puntosB} pts)</h2>
-        <div style="font-size: 16px; line-height: 2.0;">
+        <div style="font-size: 17px; line-height: 2.2; color: #222; text-align: left; padding-left: 10px;">
           ${teamB.map(j => `<strong>${j.nombre}</strong> ${obtenerEmojiRango(j.rango)}`).join("<br>")}
         </div>
       </div>
     </div>
   `;
   rebalanceBtn.disabled = false;
+}
+
+// --- ESTO ES LO QUE ACTIVA LOS BOTONES (Asegúrate de que quede en inglés nativo) ---
+if (typeof balanceBtn !== 'undefined' && balanceBtn) {
+  balanceBtn.addEventListener("click", () => {
+    generarEquipos();
+  });
+}
+
+if (typeof rebalanceBtn !== 'undefined' && rebalanceBtn) {
+  rebalanceBtn.addEventListener("click", () => {
+    generarEquipos();
+  });
 }

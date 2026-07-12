@@ -57,7 +57,17 @@ function activarEventos() {
   });
 }
 
-// === LISTA ABAJO DETALLADA (SÍMBOLO + NOMBRE + RANGO) ===
+// === ASIGNACIÓN DE COLORES EXCLUSIVOS POR RANGO ===
+function obtenerColorRango(rango) {
+  if (rango === "S+_Leitis") return "#0d47a1";   // Azul oscuro
+  if (rango === "S_Boyardo") return "#1b5e20";   // Verde oscuro
+  if (rango === "A+_Paladin") return "#4a148c";  // Morado
+  if (rango === "A_Centurion") return "#e65100"; // Naranja oscuro
+  if (rango === "B+_Campeon") return "#b71c1c";  // Rojo oscuro
+  return "#222222";                              // Gris por defecto
+}
+
+// === LISTA ABAJO DETALLADA (SÍMBOLO + NOMBRE EN COLOR + RANGO) ===
 function actualizarPanel() {
   const obtenerEmojiLista = (rango) => {
     if (rango === "S+_Leitis") return "⚔️";
@@ -79,10 +89,11 @@ function actualizarPanel() {
 
   let htmlJugadores = "";
   seleccionados.forEach(jugador => {
+    const color = obtenerColorRango(jugador.rango);
     htmlJugadores += `
       <div style="margin-bottom: 6px; font-size: 15px; display: flex; align-items: center; gap: 8px;">
         <span>${obtenerEmojiLista(jugador.rango)}</span>
-        <strong>${jugador.nombre}</strong> 
+        <strong style="color: ${color};">${jugador.nombre}</strong> 
         <span style="color: #666; font-size: 13px;">(${formatearRango(jugador.rango)})</span>
       </div>
     `;
@@ -92,11 +103,11 @@ function actualizarPanel() {
     <div style="margin-top: 20px; padding: 12px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; max-width: 400px; text-align: left;">
       <strong style="color: #333; display: block; margin-bottom: 8px; border-bottom: 1px solid #ccc; padding-bottom: 4px;">📊 Tabla de Valores:</strong>
       <div style="display: flex; flex-direction: column; gap: 5px;">
-        <div><strong>⚔️ S+ Leitis:</strong> 5 Pts</div>
-        <div><strong>🛡️ S Boyardo:</strong> 4 Pts</div>
-        <div><strong>⭐ A+ Paladin:</strong> 3 Pts</div>
-        <div><strong>🎖️ A Centurion:</strong> 2 Pts</div>
-        <div><strong>🏆 B+ Campeon:</strong> 1 Pts</div>
+        <div style="color: #0d47a1;"><strong>⚔️ S+ Leitis:</strong> 5 Pts</div>
+        <div style="color: #1b5e20;"><strong>🛡️ S Boyardo:</strong> 4 Pts</div>
+        <div style="color: #4a148c;"><strong>⭐ A+ Paladin:</strong> 3 Pts</div>
+        <div style="color: #e65100;"><strong>🎖️ A Centurion:</strong> 2 Pts</div>
+        <div style="color: #b71c1c;"><strong>🏆 B+ Campeon:</strong> 1 Pts</div>
       </div>
     </div>
   `;
@@ -130,7 +141,7 @@ function puntosRango(rango) {
   return 0;
 }
 
-// === EN LOS EQUIPOS ARRIBA SE AGREGAN NÚMEROS DE VIÑETA ===
+// === SECCIÓN DE ENCUENTROS CON COLORES E IDENTIFICADOR DE FILA ===
 function generarEquipos() {
   contadorBalanceos++;
   const lista = [...seleccionados.values()];
@@ -159,14 +170,20 @@ function generarEquipos() {
     <div class="teamContainer">
       <div class="teamBox">
         <h2>Team A (${puntosA} pts)</h2>
-        <div style="font-size: 17px; line-height: 2.2; color: #222; text-align: left; padding-left: 10px;">
-          ${teamA.map((j, index) => `${index + 1}. <strong>${j.nombre}</strong>`).join("<br>")}
+        <div style="font-size: 17px; line-height: 2.2; text-align: left; padding-left: 10px;">
+          ${teamA.map((j, index) => {
+            const color = obtenerColorRango(j.rango);
+            return `${index + 1}. <strong style="color: ${color};">${j.nombre}</strong>`;
+          }).join("<br>")}
         </div>
       </div>
       <div class="teamBox">
         <h2>Team B (${puntosB} pts)</h2>
-        <div style="font-size: 17px; line-height: 2.2; color: #222; text-align: left; padding-left: 10px;">
-          ${teamB.map((j, index) => `${index + 1}. <strong>${j.nombre}</strong>`).join("<br>")}
+        <div style="font-size: 17px; line-height: 2.2; text-align: left; padding-left: 10px;">
+          ${teamB.map((j, index) => {
+            const color = obtenerColorRango(j.rango);
+            return `${index + 1}. <strong style="color: ${color};">${j.nombre}</strong>`;
+          }).join("<br>")}
         </div>
       </div>
     </div>

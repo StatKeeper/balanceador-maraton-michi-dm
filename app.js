@@ -109,7 +109,7 @@ function generarEquipos() {
     }
   });
 
-  // Etiquetas más compactas con un ancho controlado para evitar que se rompan en el móvil
+  // Corregido: Comparaciones idénticas a tu JSON, sin tildes que rompan el código
   const obtenerEtiquetaRango = (rango) => {
     let color = "#757575";
     let texto = rango;
@@ -117,14 +117,13 @@ function generarEquipos() {
 
     if (rango === "S+_Leitis") { color = "#2e7d32"; texto = "S+ Leitis"; emoji = "⚔️"; }
     else if (rango === "S_Boyardo") { color = "#1565c0"; texto = "S Boyardo"; emoji = "🛡️"; }
-    else if (rango === "A+_Paladin") { color = "#ef6c00"; texto = "A+ Paladín"; emoji = "⭐"; }
-    else if (rango === "A_Centurion") { color = "#f57c00"; texto = "A Centurión"; emoji = "🎖️"; }
-    else if (rango === "B+_Campeon") { color = "#5d4037"; texto = "B+ Campeón"; emoji = "🏆"; }
+    else if (rango === "A+_Paladin") { color = "#ef6c00"; texto = "A+ Paladin"; emoji = "⭐"; }
+    else if (rango === "A_Centurion") { color = "#f57c00"; texto = "A Centurion"; emoji = "🎖️"; }
+    else if (rango === "B+_Campeon") { color = "#5d4037"; texto = "B+ Campeon"; emoji = "🏆"; }
 
     return `<span style="background-color: ${color}; color: white; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; white-space: nowrap;">${emoji} ${texto}</span>`;
   };
 
-  // Se añade flexbox para alinear perfectamente el nombre y el rango en una sola fila
   resultadoEquipos.innerHTML = `
     <h3>Balanceo #${contadorBalanceos}</h3>
     <div class="teamContainer">

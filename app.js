@@ -67,17 +67,8 @@ function obtenerColorRango(rango) {
   return "#222222";                              // Gris por defecto
 }
 
-// === LISTA ABAJO DETALLADA (SÍMBOLO + NOMBRE EN COLOR + RANGO) ===
+// === LISTA ABAJO DETALLADA (SOLO NOMBRE EN COLOR + RANGO) ===
 function actualizarPanel() {
-  const obtenerEmojiLista = (rango) => {
-    if (rango === "S+_Leitis") return "⚔️";
-    if (rango === "S_Boyardo") return "🛡️";
-    if (rango === "A+_Paladin") return "⭐";
-    if (rango === "A_Centurion") return "🎖️";
-    if (rango === "B+_Campeon") return "🏆";
-    return "🪵";
-  };
-
   const formatearRango = (rango) => {
     if (rango === "S+_Leitis") return "S+ Leitis";
     if (rango === "S_Boyardo") return "S Boyardo";
@@ -91,10 +82,9 @@ function actualizarPanel() {
   seleccionados.forEach(jugador => {
     const color = obtenerColorRango(jugador.rango);
     htmlJugadores += `
-      <div style="margin-bottom: 6px; font-size: 15px; display: flex; align-items: center; gap: 8px;">
-        <span>${obtenerEmojiLista(jugador.rango)}</span>
+      <div style="margin-bottom: 6px; font-size: 15px; text-align: left; padding-left: 5px;">
         <strong style="color: ${color};">${jugador.nombre}</strong> 
-        <span style="color: #666; font-size: 13px;">(${formatearRango(jugador.rango)})</span>
+        <span style="color: #666; font-size: 13px;">（${formatearRango(jugador.rango)}）</span>
       </div>
     `;
   });
@@ -103,11 +93,11 @@ function actualizarPanel() {
     <div style="margin-top: 20px; padding: 12px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; max-width: 400px; text-align: left;">
       <strong style="color: #333; display: block; margin-bottom: 8px; border-bottom: 1px solid #ccc; padding-bottom: 4px;">📊 Tabla de Valores:</strong>
       <div style="display: flex; flex-direction: column; gap: 5px;">
-        <div style="color: #0d47a1;"><strong>⚔️ S+ Leitis:</strong> 5 Pts</div>
-        <div style="color: #1b5e20;"><strong>🛡️ S Boyardo:</strong> 4 Pts</div>
-        <div style="color: #4a148c;"><strong>⭐ A+ Paladin:</strong> 3 Pts</div>
-        <div style="color: #e65100;"><strong>🎖️ A Centurion:</strong> 2 Pts</div>
-        <div style="color: #b71c1c;"><strong>🏆 B+ Campeon:</strong> 1 Pts</div>
+        <div style="color: #0d47a1;"><strong>S+ Leitis:</strong> 5 Pts</div>
+        <div style="color: #1b5e20;"><strong>S Boyardo:</strong> 4 Pts</div>
+        <div style="color: #4a148c;"><strong>A+ Paladin:</strong> 3 Pts</div>
+        <div style="color: #e65100;"><strong>A Centurion:</strong> 2 Pts</div>
+        <div style="color: #b71c1c;"><strong>B+ Campeon:</strong> 1 Pts</div>
       </div>
     </div>
   `;
@@ -141,7 +131,7 @@ function puntosRango(rango) {
   return 0;
 }
 
-// === SECCIÓN DE ENCUENTROS CON COLORES E IDENTIFICADOR DE FILA ===
+// === ENCUENTROS POR COLOR Y VIÑETA NUMÉRICA ===
 function generarEquipos() {
   contadorBalanceos++;
   const lista = [...seleccionados.values()];

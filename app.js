@@ -90,7 +90,10 @@ function generarEquipos() {
   contadorBalanceos++;
   const lista = [...seleccionados.values()];
   
+  // Mezcla aleatoria inicial
   lista.sort(() => Math.random() - 0.5);
+  
+  // Ordena por jerarquía de rango (Mayor a menor)
   lista.sort((a, b) => puntosRango(b.rango) - puntosRango(a.rango));
 
   const teamA = [];
@@ -98,6 +101,7 @@ function generarEquipos() {
   let puntosA = 0;
   let puntosB = 0;
 
+  // Distribución equitativa por peso
   lista.forEach(jugador => {
     const puntos = puntosRango(jugador.rango);
     if (puntosA <= puntosB) {
@@ -109,44 +113,30 @@ function generarEquipos() {
     }
   });
 
-  // Corregido: Comparaciones idénticas a tu JSON, sin tildes que rompan el código
-  const obtenerEtiquetaRango = (rango) => {
-    let color = "#757575";
-    let texto = rango;
-    let emoji = "🪵";
-
-    if (rango === "S+_Leitis") { color = "#2e7d32"; texto = "S+ Leitis"; emoji = "⚔️"; }
-    else if (rango === "S_Boyardo") { color = "#1565c0"; texto = "S Boyardo"; emoji = "🛡️"; }
-    else if (rango === "A+_Paladin") { color = "#ef6c00"; texto = "A+ Paladin"; emoji = "⭐"; }
-    else if (rango === "A_Centurion") { color = "#f57c00"; texto = "A Centurion"; emoji = "🎖️"; }
-    else if (rango === "B+_Campeon") { color = "#5d4037"; texto = "B+ Campeon"; emoji = "🏆"; }
-
-    return `<span style="background-color: ${color}; color: white; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; white-space: nowrap;">${emoji} ${texto}</span>`;
+  // Asignamos solo el emoji correspondiente a cada rango
+  const obtenerEmojiRango = (rango) => {
+    if (rango === "S+_Leitis") return "⚔️";
+    if (rango === "S_Boyardo") return "🛡️";
+    if (rango === "A+_Paladin") return "⭐";
+    if (rango === "A_Centurion") return "🎖️";
+    if (rango === "B+_Campeon") return "🏆";
+    return "🪵";
   };
 
+  // Se muestra solo el nombre en negrita y su icono al lado
   resultadoEquipos.innerHTML = `
     <h3>Balanceo #${contadorBalanceos}</h3>
     <div class="teamContainer">
       <div class="teamBox">
         <h2>Team A (${puntosA} pts)</h2>
-        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
-          ${teamA.map(j => `
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 4px;">
-              <span style="font-size: 15px; font-weight: bold; color: #333;">${j.nombre}</span>
-              ${obtenerEtiquetaRango(j.rango)}
-            </div>
-          `).join("")}
+        <div style="font-size: 16px; line-height: 2.0;">
+          ${teamA.map(j => `<strong>${j.nombre}</strong> ${obtenerEmojiRango(j.rango)}`).join("<br>")}
         </div>
       </div>
       <div class="teamBox">
         <h2>Team B (${puntosB} pts)</h2>
-        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
-          ${teamB.map(j => `
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 4px;">
-              <span style="font-size: 15px; font-weight: bold; color: #333;">${j.nombre}</span>
-              ${obtenerEtiquetaRango(j.rango)}
-            </div>
-          `).join("")}
+        <div style="font-size: 16px; line-height: 2.0;">
+          ${teamB.map(j => `<strong>${j.nombre}</strong> ${obtenerEmojiRango(j.rango)}`).join("<br>")}
         </div>
       </div>
     </div>

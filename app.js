@@ -109,47 +109,48 @@ function generarEquipos() {
     }
   });
 
+  // Etiquetas más compactas con un ancho controlado para evitar que se rompan en el móvil
   const obtenerEtiquetaRango = (rango) => {
-    switch(rango) {
-      case "S+_Leitis":
-        return `<span style="background-color: #2e7d32; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; margin-left: 5px;">⚔️ S+ Leitis</span>`;
-      case "S_Boyardo":
-        return `<span style="background-color: #1565c0; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; margin-left: 5px;">🛡️ S Boyardo</span>`;
-      case "A+_Paladin":
-        return `<span style="background-color: #ef6c00; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; margin-left: 5px;">⭐ A+ Paladin</span>`;
-      case "A_Centurion":
-        return `<span style="background-color: #f57c00; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; margin-left: 5px;">🎖️ A Centurion</span>`;
-      case "B+_Campeon":
-        return `<span style="background-color: #757575; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; margin-left: 5px;">🪵 B+ Campeon</span>`;
-      default:
-        return "";
-    }
+    let color = "#757575";
+    let texto = rango;
+    let emoji = "🪵";
+
+    if (rango === "S+_Leitis") { color = "#2e7d32"; texto = "S+ Leitis"; emoji = "⚔️"; }
+    else if (rango === "S_Boyardo") { color = "#1565c0"; texto = "S Boyardo"; emoji = "🛡️"; }
+    else if (rango === "A+_Paladin") { color = "#ef6c00"; texto = "A+ Paladín"; emoji = "⭐"; }
+    else if (rango === "A_Centurion") { color = "#f57c00"; texto = "A Centurión"; emoji = "🎖️"; }
+    else if (rango === "B+_Campeon") { color = "#5d4037"; texto = "B+ Campeón"; emoji = "🏆"; }
+
+    return `<span style="background-color: ${color}; color: white; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; white-space: nowrap;">${emoji} ${texto}</span>`;
   };
 
+  // Se añade flexbox para alinear perfectamente el nombre y el rango en una sola fila
   resultadoEquipos.innerHTML = `
     <h3>Balanceo #${contadorBalanceos}</h3>
     <div class="teamContainer">
       <div class="teamBox">
         <h2>Team A (${puntosA} pts)</h2>
-        <div style="line-height: 2.2; font-size: 16px;">
-          ${teamA.map(j => `<strong>${j.nombre}</strong> ${obtenerEtiquetaRango(j.rango)}`).join("<br>")}
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+          ${teamA.map(j => `
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 4px;">
+              <span style="font-size: 15px; font-weight: bold; color: #333;">${j.nombre}</span>
+              ${obtenerEtiquetaRango(j.rango)}
+            </div>
+          `).join("")}
         </div>
       </div>
       <div class="teamBox">
         <h2>Team B (${puntosB} pts)</h2>
-        <div style="line-height: 2.2; font-size: 16px;">
-          ${teamB.map(j => `<strong>${j.nombre}</strong> ${obtenerEtiquetaRango(j.rango)}`).join("<br>")}
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+          ${teamB.map(j => `
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 4px;">
+              <span style="font-size: 15px; font-weight: bold; color: #333;">${j.nombre}</span>
+              ${obtenerEtiquetaRango(j.rango)}
+            </div>
+          `).join("")}
         </div>
       </div>
     </div>
   `;
   rebalanceBtn.disabled = false;
 }
-
-balanceBtn.addEventListener("click", () => {
-  generarEquipos();
-});
-
-rebalanceBtn.addEventListener("click", () => {
-  generarEquipos();
-});

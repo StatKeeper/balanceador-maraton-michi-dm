@@ -130,7 +130,7 @@ function puntosRango(rango) {
   return 0;
 }
 
-// === EN LOS EQUIPOS ARRIBA SALDRÁ ÚNICAMENTE EL NOMBRE LIMPIO EN NEGRITA ===
+// === EN LOS EQUIPOS ARRIBA SE AGREGAN NÚMEROS DE VIÑETA ===
 function generarEquipos() {
   contadorBalanceos++;
   const lista = [...seleccionados.values()];
@@ -160,13 +160,13 @@ function generarEquipos() {
       <div class="teamBox">
         <h2>Team A (${puntosA} pts)</h2>
         <div style="font-size: 17px; line-height: 2.2; color: #222; text-align: left; padding-left: 10px;">
-          ${teamA.map(j => `<strong>${j.nombre}</strong>`).join("<br>")}
+          ${teamA.map((j, index) => `${index + 1}. <strong>${j.nombre}</strong>`).join("<br>")}
         </div>
       </div>
       <div class="teamBox">
         <h2>Team B (${puntosB} pts)</h2>
         <div style="font-size: 17px; line-height: 2.2; color: #222; text-align: left; padding-left: 10px;">
-          ${teamB.map(j => `<strong>${j.nombre}</strong>`).join("<br>")}
+          ${teamB.map((j, index) => `${index + 1}. <strong>${j.nombre}</strong>`).join("<br>")}
         </div>
       </div>
     </div>
